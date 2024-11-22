@@ -1,1 +1,4 @@
 /node_modules
+backend_phonebook/node_modules
+eslint.config.js
+.linthtmlrc.json

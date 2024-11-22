@@ -5,9 +5,20 @@ mongoose.set('strictQuery', false);
 const url = process.env.MONGODB_URL;
 mongoose.connect(url);
 
+const validPhonePattern = /^\d{2,3}-\d{4,}$/
+
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+    validate: validPhonePattern,
+  }, // come back to add more complicated validation in next step...
 });
 
 personSchema.set('toJSON', {
@@ -17,30 +28,5 @@ personSchema.set('toJSON', {
     delete returnedObject.__v;
   }
 });
-
-// if (process.argv.length === 3) {
-//   Person.find({}).then(result => {
-//     console.log('Phonebook:');
-//     result.forEach(person => {
-//       console.log(`${person.name} ${person.number}`);
-//     });
-
-//     mongoose.connection.close();
-//   });
-// } else {
-//   const newPersonName = process.argv[3];
-//   const newPersonNumber = process.argv[4];
-
-//   const newPerson = new Person({
-//     name: newPersonName,
-//     number: newPersonNumber
-//   });
-
-//   newPerson.save().then(result => {
-//     console.log('Person saved!');
-//     console.log(`Result of operation: ${result}`);
-//     mongoose.connection.close();
-//   });
-// }
 
 module.exports = mongoose.model('Person', personSchema);

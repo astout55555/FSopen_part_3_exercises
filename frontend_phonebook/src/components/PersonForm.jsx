@@ -30,9 +30,15 @@ const PersonForm = (props) => {
             setSuccessMessage(`Updated ${returnedPerson.name}`);
             setTimeout(() => setSuccessMessage(null), 3000);
           }).catch(error => {
-            setErrorMessage(`Information of ${personToUpdate.name} has already been removed from server`);
-            setTimeout(() => setErrorMessage(null), 5000);
-            console.error(error.message);
+            if (error.name === 'TypeError') { // returnedPerson is null
+              setErrorMessage(`Information of ${personToUpdate.name} has already been removed from server`);
+              setTimeout(() => setErrorMessage(null), 5000);
+              console.error(error.message);
+            } else { // handle validation errors
+              setErrorMessage(error.response.data.error);
+              setTimeout(() => setErrorMessage(null), 5000);
+              console.error(error.response.data.error);
+            }
           });
       }
 
@@ -51,6 +57,11 @@ const PersonForm = (props) => {
           setNewNumber('');
           setSuccessMessage(`Added ${returnedPerson.name}`);
           setTimeout(() => setSuccessMessage(null), 3000);
+        })
+        .catch(error => { // handles validation errors
+          setErrorMessage(error.response.data.error);
+          setTimeout(() => setErrorMessage(null), 5000);
+          console.error(error.response.data.error);
         });
     }
   }
