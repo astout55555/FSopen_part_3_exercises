@@ -36,7 +36,9 @@ const { Client } = pg;
 
 const client = new Client(); // config is in .env
 
-const petsRouter = require('express-promise-router');
+const Router = require('express-promise-router');
+
+const petsRouter = new Router();
 
 petsRouter.get('/', async (request, response, next) => {
   console.log('getting pets...about to connect client');
