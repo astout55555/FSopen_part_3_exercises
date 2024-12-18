@@ -14,7 +14,7 @@ const App = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState(null);
 
   const fetchInitialPersonsHook = () => {
     phonebookService.getAll()
@@ -37,6 +37,10 @@ const App = () => {
   useEffect(fetchInitialPersonsHook, []);
 
   useEffect(fetchPetsHook, []);
+
+  if (pets === null) {
+    return null;
+  }
 
   return (
     <>
