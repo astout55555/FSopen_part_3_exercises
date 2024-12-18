@@ -32,9 +32,9 @@ const Person = require('./models/person');
 
 // added for the dynamic app VPS project after `npm install express-promise-router`
 const pg = require('pg');
-const { Client } = pg;
+const { Pool } = pg;
 
-const client = new Client(); // config is in .env
+const pool = new Pool(); // config is in .env
 
 const Router = require('express-promise-router');
 
@@ -42,15 +42,16 @@ const petsRouter = new Router();
 
 petsRouter.get('/', async (request, response, next) => {
   try {
-    console.log('getting pets...about to connect client');
-    await client.connect();
-    console.log('client successfully connected to db');
-    const { rows } = await client.query('SELECT * FROM pets');
+    // console.log('getting pets...about to connect client');
+    // const client = await pool.connect(); // client not needed for single query
+    // console.log('client successfully connected to db');
+    console.log('about to use pool to query db');
+    const { rows } = await pool.query('SELECT * FROM pets');
     console.log('successfully obtained this from the db: ', rows);
-    await client.end();
+    await pool.end();
     response.send(rows);
   } catch (error) {
-    await client.end();
+    await pool.end();
     next(error);
   }
 });
