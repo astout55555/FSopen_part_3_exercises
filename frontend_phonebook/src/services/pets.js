@@ -9,10 +9,14 @@ const getPets = () => {
   console.log('about to get pets from /api/pets');
   const request = axios.get(`${baseUrl}`);
   console.log('request initiated');
-  return request.then(response => {
-    console.log(response);
-    return response.data
-  });
+  try {
+    return request.then(response => {
+      console.log(response);
+      return response.data
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export default {

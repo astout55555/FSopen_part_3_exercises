@@ -30,29 +30,29 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 const Person = require('./models/person');
 
-// // added for the dynamic app VPS project after `npm install express-promise-router`
-// const pg = require('pg');
-// const { Client } = pg;
+// added for the dynamic app VPS project after `npm install express-promise-router`
+const pg = require('pg');
+const { Client } = pg;
 
-// const client = new Client(); // config is in .env
+const client = new Client(); // config is in .env
 
-// const petsRouter = require('express-promise-router');
+const petsRouter = require('express-promise-router');
 
-// petsRouter.get('/', async (request, response, next) => {
-//   console.log('getting pets...about to connect client');
-//   await client.connect();
-//   console.log('client successfully connected to db');
-//   try {
-//     const { rows } = await client.query('SELECT * FROM pets');
-//     console.log('successfully obtained this from the db: ', rows);
-//     response.send(rows);
-//     client.end();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+petsRouter.get('/', async (request, response, next) => {
+  console.log('getting pets...about to connect client');
+  await client.connect();
+  console.log('client successfully connected to db');
+  try {
+    const { rows } = await client.query('SELECT * FROM pets');
+    console.log('successfully obtained this from the db: ', rows);
+    response.send(rows);
+    client.end();
+  } catch (error) {
+    next(error);
+  }
+});
 
-// app.use('/api/pets', petsRouter);
+app.use('/api/pets', petsRouter);
 
 // end of inserted content
 
