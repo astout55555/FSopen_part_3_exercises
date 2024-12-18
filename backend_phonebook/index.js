@@ -41,11 +41,10 @@ const Router = require('express-promise-router');
 const petsRouter = new Router();
 
 petsRouter.get('/', async (request, response, next) => {
-  client.end();
-  console.log('getting pets...about to connect client');
-  await client.connect();
-  console.log('client successfully connected to db');
   try {
+    console.log('getting pets...about to connect client');
+    await client.connect();
+    console.log('client successfully connected to db');
     const { rows } = await client.query('SELECT * FROM pets');
     console.log('successfully obtained this from the db: ', rows);
     response.send(rows);
