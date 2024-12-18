@@ -42,9 +42,7 @@ const petsRouter = new Router();
 
 petsRouter.get('/', async (request, response, next) => {
   try {
-    console.log('about to use pool to query db');
     const { rows } = await pool.query('SELECT * FROM pets');
-    console.log('successfully obtained this from the db: ', rows);
     response.send(rows);
   } catch (error) {
     next(error);
