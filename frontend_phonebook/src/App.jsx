@@ -25,8 +25,11 @@ const App = () => {
   }
 
   const fetchPetsHook = () => {
+    console.log('hello from the start of the pets hook');
     petsService.getPets()
       .then(retrievedPets => {
+        console.log('pets retrieved, about to set');
+        console.log('what was retrieved: ', retrievedPets);
         setPets(retrievedPets);
     });
   }
