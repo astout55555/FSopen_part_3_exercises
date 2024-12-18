@@ -18,7 +18,7 @@ const personSchema = new mongoose.Schema({
     minLength: 8,
     required: true,
     validate: validPhonePattern,
-  }, // come back to add more complicated validation in next step...
+  },
 });
 
 personSchema.set('toJSON', {

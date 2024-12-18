@@ -30,6 +30,22 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 const Person = require('./models/person');
 
+// added for the dynamic app VPS project after `npm install express-promise-router`
+const pg = require('pg');
+const { Client } = pg;
+
+const client = new Client(); // config is in .env
+
+app.get('/api/pets', async (request, response, next) => {
+  await client.connect();
+  try {
+    const { rows } = await client.query('SELECT * FROM pets');
+    response.send(rows);
+  } catch (error) {
+    next(error);
+  }
+})
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>');
 });
@@ -131,7 +147,8 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT; // || 3001 removed, relying on .env and secrets
+// port obtained via .env in dev or secrets in prod (fly)
+const PORT = process.env.PORT; // || 3002 - updated to match version used on droplet
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
