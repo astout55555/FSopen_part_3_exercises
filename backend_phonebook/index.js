@@ -37,9 +37,12 @@ const { Client } = pg;
 const client = new Client(); // config is in .env
 
 app.get('/api/pets', async (request, response, next) => {
+  console.log('getting pets...about to connect client');
   await client.connect();
+  console.log('client successfully connected to db');
   try {
     const { rows } = await client.query('SELECT * FROM pets');
+    console.log(`successfully obtained this from the db: ${rows}`);
     response.send(rows);
   } catch (error) {
     next(error);
