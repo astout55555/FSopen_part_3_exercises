@@ -48,10 +48,10 @@ petsRouter.get('/', async (request, response, next) => {
     console.log('about to use pool to query db');
     const { rows } = await pool.query('SELECT * FROM pets');
     console.log('successfully obtained this from the db: ', rows);
-    await pool.end();
+    // await client.release();
     response.send(rows);
   } catch (error) {
-    await pool.end();
+    // await client.release();
     next(error);
   }
 });
