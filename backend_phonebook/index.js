@@ -47,10 +47,10 @@ petsRouter.get('/', async (request, response, next) => {
     console.log('client successfully connected to db');
     const { rows } = await client.query('SELECT * FROM pets');
     console.log('successfully obtained this from the db: ', rows);
+    await client.end();
     response.send(rows);
-    client.end();
   } catch (error) {
-    client.end();
+    await client.end();
     next(error);
   }
 });
