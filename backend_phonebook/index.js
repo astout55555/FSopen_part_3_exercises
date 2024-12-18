@@ -41,6 +41,7 @@ const Router = require('express-promise-router');
 const petsRouter = new Router();
 
 petsRouter.get('/', async (request, response, next) => {
+  client.end();
   console.log('getting pets...about to connect client');
   await client.connect();
   console.log('client successfully connected to db');
@@ -50,6 +51,7 @@ petsRouter.get('/', async (request, response, next) => {
     response.send(rows);
     client.end();
   } catch (error) {
+    client.end();
     next(error);
   }
 });
