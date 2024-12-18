@@ -36,18 +36,25 @@ const { Client } = pg;
 
 const client = new Client(); // config is in .env
 
-app.get('/api/pets', async (request, response, next) => {
+const petsRouter = require('express-promise-router');
+
+petsRouter.get('/', async (request, response, next) => {
   console.log('getting pets...about to connect client');
   await client.connect();
   console.log('client successfully connected to db');
   try {
     const { rows } = await client.query('SELECT * FROM pets');
-    console.log(`successfully obtained this from the db: ${rows}`);
+    console.log('successfully obtained this from the db: ', rows);
     response.send(rows);
+    client.end();
   } catch (error) {
     next(error);
   }
-})
+});
+
+app.use('/api/pets', petsRouter);
+
+// end of inserted content
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>');
