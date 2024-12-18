@@ -7,6 +7,7 @@ import phonebookService from './services/phonebook';
 import Notification from './components/Notification';
 
 import petsService from './services/pets';
+import Pets from './components/Pets';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -63,8 +64,8 @@ const App = () => {
           setFilteredPersons={setFilteredPersons}/>
       </div>
       <div>
-        <h2>Pets</h2>
-        {pets}
+        <h2>The Developer's Pets (including historical ones)</h2>
+        <Pets pets={pets} />
       </div>    
     </>
   )
